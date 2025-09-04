@@ -24,7 +24,7 @@ public class WordFrequencyGame {
     // 用Stream直接计数，简化算法
     private List<WordFrequency> countFrequencies(String[] words) {
         return Arrays.stream(words)
-                .collect(Collectors.groupingBy(w -> w, Collectors.counting()))
+                .collect(Collectors.groupingBy(word -> word, Collectors.counting()))
                 .entrySet().stream()
                 .map(e -> new WordFrequency(e.getKey(), e.getValue().intValue()))
                 .collect(Collectors.toList());
