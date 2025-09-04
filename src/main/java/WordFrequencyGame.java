@@ -1,43 +1,34 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.StringJoiner;
+import modle.WordFrequency;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class WordFrequencyGame {
 
     public static final String ANY_SPACE_SEPARATOR = "\\s+";
     public String getResult(String inputStr) {
 
-        String[] words = inputStr.split(ANY_SPACE_SEPARATOR); // 1.消除重复split
+        String[] words = inputStr.split(ANY_SPACE_SEPARATOR);
         if (words.length == 1) {
             return inputStr + " 1";
         }
         try {
-            List<Input> frequencies = countFrequencies(words);
-            frequencies.sort((w1, w2) -> w2.getWordCount() - w1.getWordCount());
-
-            StringJoiner joiner = new StringJoiner("\n");
-            for (Input w : frequencies) {
-                String s = w.getValue() + " " + w.getWordCount();
-                joiner.add(s);
-            }
-            return joiner.toString();
+            List<WordFrequency> frequencies = countFrequencies(words);
+            frequencies.sort(Comparator.comparingInt(WordFrequency::count).reversed());
         } catch (Exception e) {
             return "Calculate Error";
         }
 
+        return inputStr;
     }
 
-    private List<Input> countFrequencies(String[] words) {
-        Map<String, List<String>> groups = groupSameWords(words);
-
-        List<Input> frequencies = new ArrayList<>();
-        for (Map.Entry<String, List<String>> entry : groups.entrySet()) {
-            Input input = new Input(entry.getKey(), entry.getValue().size());
-            frequencies.add(input);
-        }
-        return frequencies;
+    // 用Stream直接计数，简化算法
+    private List<WordFrequency> countFrequencies(String[] words) {
+        return Arrays.stream(words)
+                .collect(Collectors.groupingBy(w -> w, Collectors.counting()))
+                .entrySet().stream()
+                .map(e -> new WordFrequency(e.getKey(), e.getValue().intValue()))
+                .collect(Collectors.toList());
     }
 
     private static Map<String, List<String>> groupSameWords(String[] words) {
