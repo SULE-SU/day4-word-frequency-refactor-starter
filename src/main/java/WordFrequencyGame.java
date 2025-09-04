@@ -46,8 +46,7 @@ public class WordFrequencyGame {
             Input input = new Input(entry.getKey(), entry.getValue().size());
             list.add(input);
         }
-        inputList = list;
-        return inputList;
+        return list;
     }
 
     private Map<String, List<Input>> getListMap(List<Input> inputList) {
