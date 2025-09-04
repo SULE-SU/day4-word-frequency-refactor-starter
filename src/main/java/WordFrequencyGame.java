@@ -7,16 +7,13 @@ import java.util.StringJoiner;
 public class WordFrequencyGame {
 
     public static final String ANY_SPACE_SEPARATOR = "\\s+";
-
     public String getResult(String inputStr) {
-
 
         if (inputStr.split(ANY_SPACE_SEPARATOR).length == 1) {
             return inputStr + " 1";
         } else {
 
             try {
-
                 //split the input string with 1 to n pieces of spaces
                 String[] words = inputStr.split(ANY_SPACE_SEPARATOR);
 
@@ -25,7 +22,6 @@ public class WordFrequencyGame {
                     Input input = new Input(s, 1);
                     inputList.add(input);
                 }
-
                 //get the map for the next step of sizing the same word
                 Map<String, List<Input>> map = getListMap(inputList);
 
@@ -35,7 +31,6 @@ public class WordFrequencyGame {
                     list.add(input);
                 }
                 inputList = list;
-
                 inputList.sort((w1, w2) -> w2.getWordCount() - w1.getWordCount());
 
                 StringJoiner joiner = new StringJoiner("\n");
@@ -45,8 +40,6 @@ public class WordFrequencyGame {
                 }
                 return joiner.toString();
             } catch (Exception e) {
-
-
                 return "Calculate Error";
             }
         }
@@ -64,7 +57,6 @@ public class WordFrequencyGame {
                 map.get(input.getValue()).add(input);
             }
         }
-
 
         return map;
     }
